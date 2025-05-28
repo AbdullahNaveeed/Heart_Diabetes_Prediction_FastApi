@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Heart & Diabetes Predictor</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      background-color: #f2f2f2;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #34495e;
+      padding: 15px 30px;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0 15px;
+      font-weight: bold;
+    }
+    .container {
+      max-width: 900px;
+      margin: 40px auto;
+      background-color: white;
+      border-radius: 8px;
+      padding: 30px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    h1, h2 {
+      text-align: center;
+      color: #2c3e50;
+    }
+    h2 {
+      margin-top: 40px;
+    }
+    .form-section {
+      margin: 20px 0;
+    }
+    label {
+      font-weight: 600;
+      display: block;
+      margin: 10px 0 5px;
+    }
+    input, select {
+      width: 100%;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    .tooltip {
+      display: inline-block;
+      position: relative;
+      cursor: pointer;
+      margin-left: 5px;
+      color: #3498db;
+    }
+    .tooltip .tooltiptext {
+      visibility: hidden;
+      width: 200px;
+      background-color: #555;
+      color: #fff;
+      padding: 8px;
+      border-radius: 6px;
+      position: absolute;
+      z-index: 1;
+      bottom: 120%;
+      left: 50%;
+      margin-left: -100px;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .tooltip:hover .tooltiptext {
+      visibility: visible;
+      opacity: 1;
+    }
+    .btn {
+      padding: 12px 20px;
+      background-color: #2ecc71;
+      color: white;
+      font-weight: bold;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 15px;
+    }
+    .result {
+      padding: 15px;
+      margin-top: 20px;
+      border-radius: 6px;
+    }
+    .positive { background-color: #ffebee; border: 1px solid #e57373; }
+    .negative { background-color: #e8f5e9; border: 1px solid #81c784; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <nav>
+      <a href="#home">Home</a>
+      <a href="#about">About</a>
+      <a href="#heart">Heart Prediction</a>
+      <a href="#diabetes">Diabetes Prediction</a>
+    </nav>
+  </header>
+
+  <section class="container" id="home">
+    <h1>Heart & Diabetes Prediction Dashboard</h1>
+    <p style="text-align:center; color:#555;">Enter your health metrics to predict the likelihood of Heart Disease or Diabetes using Machine Learning.</p>
+  </section>
+
+  <section class="container" id="about">
+    <h2>About This Tool</h2>
+    <p>This web app helps predict potential Heart Disease and Diabetes risk based on clinical data. The models are trained using well-known datasets like Framingham and PIMA.</p>
+  </section>
+
+  <section class="container" id="heart">
+    <h2>Heart Disease Prediction</h2>
+    <form method="post" action="/predict_heart">
+      <div class="form-group">
+        <label for="age">Age <span class="tooltip">ℹ<span class="tooltiptext">Your age in years</span></span></label>
+        <input type="number" name="age" min="18" max="100" required>
+      </div>
+
+      <div class="form-group">
+        <label for="sex">Sex</label>
+        <select name="sex" required>
+          <option value="1">Male</option>
+          <option value="0">Female</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="cp">Chest Pain Type</label>
+        <select name="cp" required>
+          <option value="0">Typical Angina</option>
+          <option value="1">Atypical Angina</option>
+          <option value="2">Non-anginal Pain</option>
+          <option value="3">Asymptomatic</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="trestbps">Resting Blood Pressure (mm Hg)</label>
+        <input type="number" name="trestbps" required>
+      </div>
+
+      <div class="form-group">
+        <label for="chol">Cholesterol (mg/dl)</label>
+        <input type="number" name="chol" required>
+      </div>
+
+      <div class="form-group">
+        <label for="fbs">Fasting Blood Sugar > 120 mg/dl (1 = True, 0 = False)</label>
+        <input type="number" name="fbs" min="0" max="1" required>
+      </div>
+
+      <div class="form-group">
+        <label for="restecg">Resting ECG Result (0-2)</label>
+        <input type="number" name="restecg" min="0" max="2" required>
+      </div>
+
+      <div class="form-group">
+        <label for="thalach">Max Heart Rate Achieved</label>
+        <input type="number" name="thalach" required>
+      </div>
+
+      <div class="form-group">
+        <label for="exang">Exercise Induced Angina (1 = Yes, 0 = No)</label>
+        <input type="number" name="exang" min="0" max="1" required>
+      </div>
+
+      <div class="form-group">
+        <label for="oldpeak">ST Depression Induced by Exercise</label>
+        <input type="text" name="oldpeak" required>
+      </div>
+
+      <div class="form-group">
+        <label for="slope">Slope of Peak Exercise ST Segment (0-2)</label>
+        <input type="number" name="slope" required>
+      </div>
+
+      <div class="form-group">
+        <label for="ca">Number of Major Vessels (0-3)</label>
+        <input type="number" name="ca" min="0" max="3" required>
+      </div>
+
+      <div class="form-group">
+        <label for="thal">Thalassemia (1 = Normal, 2 = Fixed Defect, 3 = Reversible)</label>
+        <input type="number" name="thal" min="0" max="3" required>
+      </div>
+
+      <button class="btn" type="submit">Predict Heart Disease</button>
+
+      {% if heart_result %}
+        <div class="result {{ 'positive' if heart_result == 'Positive' else 'negative' }}">
+          <strong>Result:</strong> {{ heart_result }}
+        </div>
+      {% endif %}
+    </form>
+  </section>
+
+  <section class="container" id="diabetes">
+    <h2>Diabetes Prediction</h2>
+    <form method="post" action="/predict_diabetes">
+      <div class="form-group">
+        <label for="Pregnancies">Pregnancies</label>
+        <input type="number" name="Pregnancies" required>
+      </div>
+
+      <div class="form-group">
+        <label for="Glucose">Glucose Level</label>
+        <input type="number" name="Glucose" required>
+      </div>
+
+      <div class="form-group">
+        <label for="BloodPressure">Blood Pressure</label>
+        <input type="number" name="BloodPressure" required>
+      </div>
+
+      <div class="form-group">
+        <label for="SkinThickness">Skin Thickness</label>
+        <input type="number" name="SkinThickness" required>
+      </div>
+
+      <div class="form-group">
+        <label for="Insulin">Insulin Level</label>
+        <input type="number" name="Insulin" required>
+      </div>
+
+      <div class="form-group">
+        <label for="BMI">BMI</label>
+        <input type="text" name="BMI" required>
+      </div>
+
+      <div class="form-group">
+        <label for="DiabetesPedigreeFunction">Diabetes Pedigree Function</label>
+        <input type="text" name="DiabetesPedigreeFunction" required>
+      </div>
+
+      <div class="form-group">
+        <label for="Age">Age</label>
+        <input type="number" name="Age" required>
+      </div>
+
+      <button class="btn" type="submit">Predict Diabetes</button>
+
+      {% if diabetes_result %}
+        <div class="result {{ 'positive' if diabetes_result == 'Positive' else 'negative' }}">
+          <strong>Result:</strong> {{ diabetes_result }}
+        </div>
+      {% endif %}
+    </form>
+  </section>
+
+</body>
+</html>

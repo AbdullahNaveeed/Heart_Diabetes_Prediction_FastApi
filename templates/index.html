@@ -7,7 +7,7 @@
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, sans-serif;
-      background-color: #f2f2f2;
+      background-color: #f4f6f8;
       margin: 0;
       padding: 0;
     }
@@ -25,9 +25,9 @@
       max-width: 900px;
       margin: 40px auto;
       background-color: white;
-      border-radius: 8px;
+      border-radius: 10px;
       padding: 30px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
     }
     h1, h2 {
       text-align: center;
@@ -39,19 +39,29 @@
     .form-section {
       margin: 20px 0;
     }
+    .form-group {
+      margin-bottom: 20px;
+      position: relative;
+    }
     label {
       font-weight: 600;
       display: block;
-      margin: 10px 0 5px;
+      margin-bottom: 5px;
     }
     input, select {
       width: 100%;
-      padding: 10px;
-      border-radius: 5px;
+      padding: 10px 12px;
+      border-radius: 6px;
       border: 1px solid #ccc;
+      transition: border 0.3s, box-shadow 0.3s;
     }
-    .form-group {
-      margin-bottom: 15px;
+    input:focus, select:focus {
+      border-color: #3498db;
+      box-shadow: 0 0 5px rgba(52,152,219,0.3);
+      outline: none;
+    }
+    input::placeholder {
+      color: #aaa;
     }
     .tooltip {
       display: inline-block;
@@ -62,8 +72,8 @@
     }
     .tooltip .tooltiptext {
       visibility: hidden;
-      width: 200px;
-      background-color: #555;
+      width: 220px;
+      background-color: #333;
       color: #fff;
       padding: 8px;
       border-radius: 6px;
@@ -71,23 +81,29 @@
       z-index: 1;
       bottom: 120%;
       left: 50%;
-      margin-left: -100px;
+      margin-left: -110px;
       opacity: 0;
       transition: opacity 0.3s;
+      font-size: 13px;
     }
     .tooltip:hover .tooltiptext {
       visibility: visible;
       opacity: 1;
     }
     .btn {
-      padding: 12px 20px;
+      padding: 14px 25px;
       background-color: #2ecc71;
       color: white;
       font-weight: bold;
       border: none;
       border-radius: 6px;
       cursor: pointer;
-      margin-top: 15px;
+      width: 100%;
+      font-size: 16px;
+      transition: background 0.3s;
+    }
+    .btn:hover {
+      background-color: #27ae60;
     }
     .result {
       padding: 15px;
@@ -123,21 +139,29 @@
     <h2>Heart Disease Prediction</h2>
     <form method="post" action="/predict_heart">
       <div class="form-group">
-        <label for="age">Age <span class="tooltip">ℹ<span class="tooltiptext">Your age in years</span></span></label>
-        <input type="number" name="age" min="18" max="100" required>
+        <label for="age">Age 
+          <span class="tooltip">ℹ<span class="tooltiptext">Enter your age in years (18–100)</span></span>
+        </label>
+        <input type="number" name="age" min="18" max="100" placeholder="e.g., 45" required>
       </div>
 
       <div class="form-group">
-        <label for="sex">Sex</label>
+        <label>Sex 
+          <span class="tooltip">ℹ<span class="tooltiptext">1 = Male, 0 = Female</span></span>
+        </label>
         <select name="sex" required>
+          <option value="">Select...</option>
           <option value="1">Male</option>
           <option value="0">Female</option>
         </select>
       </div>
 
       <div class="form-group">
-        <label for="cp">Chest Pain Type</label>
+        <label>Chest Pain Type 
+          <span class="tooltip">ℹ<span class="tooltiptext">0 = Typical Angina, 1 = Atypical, 2 = Non-anginal, 3 = Asymptomatic</span></span>
+        </label>
         <select name="cp" required>
+          <option value="">Select...</option>
           <option value="0">Typical Angina</option>
           <option value="1">Atypical Angina</option>
           <option value="2">Non-anginal Pain</option>
@@ -146,53 +170,65 @@
       </div>
 
       <div class="form-group">
-        <label for="trestbps">Resting Blood Pressure (mm Hg)</label>
-        <input type="number" name="trestbps" required>
+        <label>Resting Blood Pressure 
+          <span class="tooltip">ℹ<span class="tooltiptext">Measured in mm Hg</span></span>
+        </label>
+        <input type="number" name="trestbps" placeholder="e.g., 130" required>
       </div>
 
       <div class="form-group">
-        <label for="chol">Cholesterol (mg/dl)</label>
-        <input type="number" name="chol" required>
+        <label>Cholesterol (mg/dl)</label>
+        <input type="number" name="chol" placeholder="e.g., 230" required>
       </div>
 
       <div class="form-group">
-        <label for="fbs">Fasting Blood Sugar > 120 mg/dl (1 = True, 0 = False)</label>
-        <input type="number" name="fbs" min="0" max="1" required>
+        <label>Fasting Blood Sugar > 120 mg/dl 
+          <span class="tooltip">ℹ<span class="tooltiptext">1 = True, 0 = False</span></span>
+        </label>
+        <input type="number" name="fbs" min="0" max="1" placeholder="0 or 1" required>
       </div>
 
       <div class="form-group">
-        <label for="restecg">Resting ECG Result (0-2)</label>
-        <input type="number" name="restecg" min="0" max="2" required>
+        <label>Resting ECG Result 
+          <span class="tooltip">ℹ<span class="tooltiptext">0 = Normal, 1 = Abnormality, 2 = Likely Ventricular</span></span>
+        </label>
+        <input type="number" name="restecg" min="0" max="2" placeholder="0 to 2" required>
       </div>
 
       <div class="form-group">
-        <label for="thalach">Max Heart Rate Achieved</label>
-        <input type="number" name="thalach" required>
+        <label>Max Heart Rate Achieved</label>
+        <input type="number" name="thalach" placeholder="e.g., 150" required>
       </div>
 
       <div class="form-group">
-        <label for="exang">Exercise Induced Angina (1 = Yes, 0 = No)</label>
-        <input type="number" name="exang" min="0" max="1" required>
+        <label>Exercise Induced Angina 
+          <span class="tooltip">ℹ<span class="tooltiptext">1 = Yes, 0 = No</span></span>
+        </label>
+        <input type="number" name="exang" min="0" max="1" placeholder="0 or 1" required>
       </div>
 
       <div class="form-group">
-        <label for="oldpeak">ST Depression Induced by Exercise</label>
-        <input type="text" name="oldpeak" required>
+        <label>ST Depression by Exercise</label>
+        <input type="text" name="oldpeak" placeholder="e.g., 2.3" required>
       </div>
 
       <div class="form-group">
-        <label for="slope">Slope of Peak Exercise ST Segment (0-2)</label>
-        <input type="number" name="slope" required>
+        <label>Slope of Peak Exercise ST 
+          <span class="tooltip">ℹ<span class="tooltiptext">0 = Upsloping, 1 = Flat, 2 = Downsloping</span></span>
+        </label>
+        <input type="number" name="slope" min="0" max="2" placeholder="0 to 2" required>
       </div>
 
       <div class="form-group">
-        <label for="ca">Number of Major Vessels (0-3)</label>
-        <input type="number" name="ca" min="0" max="3" required>
+        <label>No. of Major Vessels (0–3)</label>
+        <input type="number" name="ca" min="0" max="3" placeholder="e.g., 2" required>
       </div>
 
       <div class="form-group">
-        <label for="thal">Thalassemia (1 = Normal, 2 = Fixed Defect, 3 = Reversible)</label>
-        <input type="number" name="thal" min="0" max="3" required>
+        <label>Thalassemia 
+          <span class="tooltip">ℹ<span class="tooltiptext">1 = Normal, 2 = Fixed Defect, 3 = Reversible</span></span>
+        </label>
+        <input type="number" name="thal" min="0" max="3" placeholder="1 to 3" required>
       </div>
 
       <button class="btn" type="submit">Predict Heart Disease</button>
@@ -209,43 +245,43 @@
     <h2>Diabetes Prediction</h2>
     <form method="post" action="/predict_diabetes">
       <div class="form-group">
-        <label for="Pregnancies">Pregnancies</label>
-        <input type="number" name="Pregnancies" required>
+        <label>Pregnancies</label>
+        <input type="number" name="Pregnancies" placeholder="e.g., 2" required>
       </div>
 
       <div class="form-group">
-        <label for="Glucose">Glucose Level</label>
-        <input type="number" name="Glucose" required>
+        <label>Glucose Level</label>
+        <input type="number" name="Glucose" placeholder="e.g., 110" required>
       </div>
 
       <div class="form-group">
-        <label for="BloodPressure">Blood Pressure</label>
-        <input type="number" name="BloodPressure" required>
+        <label>Blood Pressure</label>
+        <input type="number" name="BloodPressure" placeholder="e.g., 70" required>
       </div>
 
       <div class="form-group">
-        <label for="SkinThickness">Skin Thickness</label>
-        <input type="number" name="SkinThickness" required>
+        <label>Skin Thickness</label>
+        <input type="number" name="SkinThickness" placeholder="e.g., 20" required>
       </div>
 
       <div class="form-group">
-        <label for="Insulin">Insulin Level</label>
-        <input type="number" name="Insulin" required>
+        <label>Insulin Level</label>
+        <input type="number" name="Insulin" placeholder="e.g., 85" required>
       </div>
 
       <div class="form-group">
-        <label for="BMI">BMI</label>
-        <input type="text" name="BMI" required>
+        <label>BMI</label>
+        <input type="text" name="BMI" placeholder="e.g., 26.5" required>
       </div>
 
       <div class="form-group">
-        <label for="DiabetesPedigreeFunction">Diabetes Pedigree Function</label>
-        <input type="text" name="DiabetesPedigreeFunction" required>
+        <label>Diabetes Pedigree Function</label>
+        <input type="text" name="DiabetesPedigreeFunction" placeholder="e.g., 0.351" required>
       </div>
 
       <div class="form-group">
-        <label for="Age">Age</label>
-        <input type="number" name="Age" required>
+        <label>Age</label>
+        <input type="number" name="Age" placeholder="e.g., 40" required>
       </div>
 
       <button class="btn" type="submit">Predict Diabetes</button>

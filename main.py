@@ -10,9 +10,12 @@ templates = Jinja2Templates(directory="templates")
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
-# Load models
+# Load models and scalers
 heart_model = joblib.load("heart_model.pkl")
+heart_scaler = joblib.load("heart_scaler.pkl")
+
 diabetes_model = joblib.load("diabetes_model.pkl")
+diabetes_scaler = joblib.load("diabetes_scaler.pkl")
 
 @app.get("/", response_class=HTMLResponse)
 async def read_root(request: Request):
@@ -37,7 +40,8 @@ async def predict_heart(
 ):
     input_data = np.array([[age, sex, cp, trestbps, chol, fbs, restecg,
                             thalach, exang, oldpeak, slope, ca, thal]])
-    prediction = heart_model.predict(input_data)
+    input_data_scaled = heart_scaler.transform(input_data)
+    prediction = heart_model.predict(input_data_scaled)
     result = "Heart Disease Detected" if prediction[0] == 1 else "No Heart Disease"
     return templates.TemplateResponse("index.html", {"request": request, "heart_result": result})
 
@@ -55,6 +59,7 @@ async def predict_diabetes(
 ):
     input_data = np.array([[Pregnancies, Glucose, BloodPressure, SkinThickness,
                             Insulin, BMI, DiabetesPedigreeFunction, Age]])
-    prediction = diabetes_model.predict(input_data)
+    input_data_scaled = diabetes_scaler.transform(input_data)
+    prediction = diabetes_model.predict(input_data_scaled)
     result = "Diabetes Detected" if prediction[0] == 1 else "No Diabetes"
     return templates.TemplateResponse("index.html", {"request": request, "diabetes_result": result})

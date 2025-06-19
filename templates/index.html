@@ -112,6 +112,13 @@
     }
     .positive { background-color: #ffebee; border: 1px solid #e57373; }
     .negative { background-color: #e8f5e9; border: 1px solid #81c784; }
+    .accuracy {
+      text-align: center;
+      font-size: 16px;
+      font-weight: bold;
+      color: #2c3e50;
+      margin-bottom: 20px;
+    }
   </style>
 </head>
 <body>
@@ -138,6 +145,7 @@
   <section class="container" id="heart">
     <h2>Heart Disease Prediction</h2>
     <form method="post" action="/predict_heart">
+      <p class="accuracy">❤️ Model Accuracy: {{ heart_accuracy }}%</p>
       <div class="form-group">
         <label for="age">Age 
           <span class="tooltip">ℹ<span class="tooltiptext">Enter your age in years (18–100)</span></span>
@@ -243,6 +251,7 @@
 
   <section class="container" id="diabetes">
     <h2>Diabetes Prediction</h2>
+     <p class="accuracy">🩺 Model Accuracy: {{ diabetes_accuracy }}%</p>
     <form method="post" action="/predict_diabetes">
       <div class="form-group">
         <label>Pregnancies</label>

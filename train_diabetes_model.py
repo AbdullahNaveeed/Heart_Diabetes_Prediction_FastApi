@@ -1,11 +1,11 @@
-# train_diabetes_model.py
+# train_diabetes_model_knn.py
 
 import pandas as pd
-from sklearn.linear_model import LogisticRegression
+from sklearn.neighbors import KNeighborsClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 import joblib
-
+from sklearn.metrics import accuracy_score
 # Load the dataset
 df = pd.read_csv("diabetes.csv")
 df.dropna(inplace=True)
@@ -17,15 +17,25 @@ if "Outcome" in df.columns:
 X = df.drop("target", axis=1)
 y = df["target"]
 
+# Split into training and testing data
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
 
+# Scale the features
 scaler = StandardScaler()
 X_train_scaled = scaler.fit_transform(X_train)
 
-model = LogisticRegression()
+# KNN Classifier
+model = KNeighborsClassifier(n_neighbors=5)
 model.fit(X_train_scaled, y_train)
+X_test_scaled = scaler.transform(X_test)
+y_pred = model.predict(X_test_scaled)
+accuracy = accuracy_score(y_test, y_pred)
 
+with open("heart_accuracy.txt", "w") as f:
+    f.write(str(round(accuracy * 100, 2)))
+
+# Save the model and scaler
 joblib.dump(model, "diabetes_model.pkl")
 joblib.dump(scaler, "diabetes_scaler.pkl")
 
-print("✅ Diabetes model and scaler saved successfully.")
+print("Diabetes KNN model and scaler saved successfully.")

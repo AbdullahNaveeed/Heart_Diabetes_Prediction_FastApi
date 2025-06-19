@@ -1,5 +1,6 @@
-fastapi
-uvicorn
-scikit-learn
-joblib
-python-multipart
+heart_model.pkl
+heart_scaler.pkl
+heart_accuracy.txt
+diabetes_model.pkl
+diabetes_scaler.pkl
+diabetes_accuracy.txt

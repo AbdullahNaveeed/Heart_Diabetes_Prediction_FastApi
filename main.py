@@ -64,7 +64,7 @@ async def predict_heart(
 ):
     input_data = np.array([[age, sex, cp, trestbps, chol, fbs, restecg,
                             thalach, exang, oldpeak, slope, ca, thal]])
-    
+       
     if heart_scaler:
         input_data = heart_scaler.transform(input_data)
 

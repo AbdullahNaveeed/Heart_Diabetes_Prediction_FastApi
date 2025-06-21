@@ -1,5 +1,5 @@
 import pandas as pd
-from sklearn.neighbors import KNeighborsClassifier
+from sklearn.naive_bayes import GaussianNB
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import accuracy_score
@@ -22,14 +22,15 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
 # Scale the features
 scaler = StandardScaler()
 X_train_scaled = scaler.fit_transform(X_train)
-
-# KNN Classifier
-model = KNeighborsClassifier(n_neighbors=5)
-model.fit(X_train_scaled, y_train)
 X_test_scaled = scaler.transform(X_test)
+
+# Naive Bayes Classifier
+model = GaussianNB()
+model.fit(X_train_scaled, y_train)
 y_pred = model.predict(X_test_scaled)
 accuracy = accuracy_score(y_test, y_pred)
 
+# Save accuracy
 with open("diabetes_accuracy.txt", "w") as f:
     f.write(str(round(accuracy * 100, 2)))
 
@@ -37,4 +38,4 @@ with open("diabetes_accuracy.txt", "w") as f:
 joblib.dump(model, "diabetes_model.pkl")
 joblib.dump(scaler, "diabetes_scaler.pkl")
 
-print("Diabetes KNN model and scaler saved successfully.")
+print("Diabetes Naive Bayes model and scaler saved successfully.")

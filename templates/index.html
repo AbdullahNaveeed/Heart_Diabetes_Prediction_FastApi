@@ -180,7 +180,7 @@
     <section class="container" id="heart">
       <h2>Heart Disease Prediction</h2>
       <form method="post" action="/predict_heart">
-        <p class="accuracy">❤️ Model Accuracy: {{ heart_accuracy }}%</p>
+        <!-- <p class="accuracy">❤️ Model Accuracy: {{ heart_accuracy }}%</p> -->
 
         <div class="form-group">
           <label for="age"
@@ -385,7 +385,7 @@
 
     <section class="container" id="diabetes">
       <h2>Diabetes Prediction</h2>
-      <p class="accuracy">🩺 Model Accuracy: {{ diabetes_accuracy }}%</p>
+      <!-- <p class="accuracy">🩺 Model Accuracy: {{ diabetes_accuracy }}%</p> -->
       <form method="post" action="/predict_diabetes">
         <div class="form-group">
           <label>Pregnancies</label>
@@ -502,13 +502,12 @@
         });
       });
 
-      
       window.addEventListener("load", () => {
         document.querySelectorAll(".result").forEach((res) => {
           setTimeout(() => {
             res.style.opacity = 1;
           }, 300);
-        }); 
+        });
       });
 
       // Theme toggle

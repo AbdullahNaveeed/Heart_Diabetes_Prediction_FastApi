@@ -5,22 +5,22 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import accuracy_score
 import joblib
 
-# Load the dataset
+
 df = pd.read_excel("Heart_datasets.xlsx")
 df.dropna(inplace=True)
 
-# Split data into features and target
+
 X = df.drop("target", axis=1)
 y = df["target"]
 
-# Train-test split
+
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
 
-# Feature scaling
+
 scaler = StandardScaler()
 X_train_scaled = scaler.fit_transform(X_train)
 
-# Train KNN classifier
+
 model = KNeighborsClassifier(n_neighbors=5)
 model.fit(X_train_scaled, y_train)
 X_test_scaled = scaler.transform(X_test)
@@ -30,7 +30,7 @@ accuracy = accuracy_score(y_test, y_pred)
 with open("heart_accuracy.txt", "w") as f:
     f.write(str(round(accuracy * 100, 2)))
 
-# Save model and scaler
+
 joblib.dump(model, "heart_model.pkl")
 joblib.dump(scaler, "heart_scaler.pkl")
 

@@ -11,11 +11,11 @@ app = FastAPI()
 templates = Jinja2Templates(directory="templates")
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
-# Load models
+
 heart_model = joblib.load("heart_model.pkl")
 diabetes_model = joblib.load("diabetes_model.pkl")
 
-# Load scalers if used
+
 try:
     heart_scaler = joblib.load("heart_scaler.pkl")
 except:
